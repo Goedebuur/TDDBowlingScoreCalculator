@@ -55,13 +55,35 @@ namespace TDDBowlingGameKataTests
             BowlingGame game = CreateBowlingGame();
 
             //Act
-            game.Roll(2);
-            game.Roll(8);
-            game.Roll(4);
+            RollSpare(game);
+            game.Roll(4); //Bonus roll
+
             RollMany(0, 17, game);
 
             //Assert
             Assert.AreEqual(18, game.CalculateScore());
+        }
+
+        private static void RollSpare(BowlingGame game)
+        {
+            game.Roll(2);
+            game.Roll(8);
+        }
+
+        [Test]
+        public void CalculateScore_OneStrike_CorrectlyIncludesBonus()
+        {
+            //Arrange
+            BowlingGame game = CreateBowlingGame();
+
+            //Act
+            game.Roll(10); // Strike
+            game.Roll(2); // 2 bonus rolls
+            game.Roll(3);
+            RollMany(0, 16, game);
+
+            //Assert
+            Assert.AreEqual(20, game.CalculateScore());
         }
     }
 }

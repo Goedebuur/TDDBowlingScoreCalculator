@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TDDBowlingGameKata
+﻿namespace TDDBowlingGameKata
 {
     public class BowlingGame
     {
@@ -14,7 +12,7 @@ namespace TDDBowlingGameKata
 
         #endregion
 
-        public BowlingGame ()
+        public BowlingGame()
         {
             for (int i = 0;
                 i < _frames.Length;
@@ -36,14 +34,21 @@ namespace TDDBowlingGameKata
                 i < _frames.Length;
                 i++)
             {
-                if (IsSpare(i))
+                Frame currentFrame = _frames[i];
+
+                if (IsStrike(currentFrame))
                 {
-                    _score += _frames[i].Rolls[0] + _frames[i].Rolls[1] + _frames[i + 1].Rolls[0];
+                    _score += currentFrame.SumRolls() + CalculateBonus(currentFrame, i);
+                }
+
+                else if (IsSpare(currentFrame))
+                {
+                    _score += currentFrame.SumRolls() + CalculateBonus(currentFrame, i);
                 }
 
                 else
                 {
-                    _score += _frames[i].Rolls[0] + _frames[i].Rolls[1];
+                    _score += currentFrame.SumRolls();
                 }
             }
 
@@ -62,13 +67,41 @@ namespace TDDBowlingGameKata
 
             else
             {
-                _currentRoll++;
+                if (i == 10)
+                {
+                    _currentFrame++;
+                }
+
+                else
+                {
+                    _currentRoll++;
+                }
             }
         }
 
-        private bool IsSpare(int i)
+        private int CalculateBonus(Frame frame, int index)
         {
-            return _frames[i].Rolls[0] + _frames[i].Rolls[1] == 10;
+            if (IsStrike(frame))
+            {
+                return _frames[index + 1].Rolls[0] + _frames[index + 1].Rolls[1];
+            }
+
+            if (IsSpare(frame))
+            {
+                return _frames[index + 1].Rolls[0];
+            }
+
+            return 0;
+        }
+
+        private bool IsSpare(Frame frame)
+        {
+            return frame.Rolls[0] + frame.Rolls[1] == 10;
+        }
+
+        private bool IsStrike(Frame frame)
+        {
+            return frame.Rolls[0] == 10;
         }
     }
 }
