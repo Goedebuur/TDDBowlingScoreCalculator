@@ -8,6 +8,8 @@ namespace TDDBowlingGameKata
 {
     public class BowlingGame
     {
+        private int _score;
+
         public static void Main(string[] args)
         {
             
@@ -15,12 +17,12 @@ namespace TDDBowlingGameKata
 
         public void Roll(int i)
         {
-            
+            _score += i;
         }
 
         public int CalculateScore()
         {
-            return 0;
+            return _score;
         }
     }
 }
