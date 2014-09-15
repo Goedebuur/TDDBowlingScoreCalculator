@@ -22,6 +22,12 @@ namespace TDDBowlingGameKataTests
             }
         }
 
+        private static void RollSpare(BowlingGame game)
+        {
+            game.Roll(2);
+            game.Roll(8);
+        }
+
         [Test]
         public void CalculateScore_AllOnes_Returns20()
         {
@@ -33,6 +39,23 @@ namespace TDDBowlingGameKataTests
 
             //Assert
             Assert.AreEqual(20, game.CalculateScore());
+        }
+
+        [Test]
+        public void CalculateScore_DoubleStrike_CorrectlyIncludesBonus()
+        {
+            //Arrange
+            BowlingGame game = CreateBowlingGame();
+
+            //Act
+            game.Roll(10); // Strike for 22
+            game.Roll(10); // Strike for 15
+            game.Roll(2);
+            game.Roll(3);
+            RollMany(0, 14, game);
+
+            //Assert
+            Assert.AreEqual(42, game.CalculateScore());
         }
 
         [Test]
@@ -62,12 +85,6 @@ namespace TDDBowlingGameKataTests
 
             //Assert
             Assert.AreEqual(18, game.CalculateScore());
-        }
-
-        private static void RollSpare(BowlingGame game)
-        {
-            game.Roll(2);
-            game.Roll(8);
         }
 
         [Test]

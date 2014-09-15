@@ -36,12 +36,12 @@
             {
                 Frame currentFrame = _frames[i];
 
-                if (IsStrike(currentFrame))
+                if (currentFrame.IsStrike())
                 {
                     _score += currentFrame.SumRolls() + CalculateBonus(currentFrame, i);
                 }
 
-                else if (IsSpare(currentFrame))
+                else if (currentFrame.IsSpare())
                 {
                     _score += currentFrame.SumRolls() + CalculateBonus(currentFrame, i);
                 }
@@ -81,27 +81,19 @@
 
         private int CalculateBonus(Frame frame, int index)
         {
-            if (IsStrike(frame))
+            if (frame.IsStrike())
             {
-                return _frames[index + 1].Rolls[0] + _frames[index + 1].Rolls[1];
+                return _frames[index + 1].Rolls[0] + (_frames[index + 1].IsStrike()
+                    ? _frames[index + 2].Rolls[0]
+                    : _frames[index + 1].Rolls[1]);
             }
 
-            if (IsSpare(frame))
+            if (frame.IsSpare())
             {
                 return _frames[index + 1].Rolls[0];
             }
 
             return 0;
-        }
-
-        private bool IsSpare(Frame frame)
-        {
-            return frame.Rolls[0] + frame.Rolls[1] == 10;
-        }
-
-        private bool IsStrike(Frame frame)
-        {
-            return frame.Rolls[0] == 10;
         }
     }
 }
