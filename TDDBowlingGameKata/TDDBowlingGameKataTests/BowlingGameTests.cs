@@ -12,19 +12,24 @@ namespace TDDBowlingGameKataTests
             return new BowlingGame();
         }
 
+        private void RollMany(int pins, int times, BowlingGame game)
+        {
+            for (int i = 0;
+                i < times;
+                i++)
+            {
+                game.Roll(pins);
+            }
+        }
+
         [Test]
-        public void CalculateScore_AllOnes_ScoreIs20()
+        public void CalculateScore_AllOnes_Returns20()
         {
             //Arrange
             BowlingGame game = CreateBowlingGame();
 
             //Act
-            for (int i = 0;
-                i < 20;
-                i++)
-            {
-                game.Roll(1);
-            }
+            RollMany(1, 20, game);
 
             //Assert
             Assert.AreEqual(20, game.CalculateScore());
@@ -37,15 +42,26 @@ namespace TDDBowlingGameKataTests
             BowlingGame game = CreateBowlingGame();
 
             //Act
-            for (int i = 0;
-                i < 20;
-                i++)
-            {
-                game.Roll(0);
-            }
+            RollMany(0, 20, game);
 
             //Assert
             Assert.AreEqual(0, game.CalculateScore());
+        }
+
+        [Test]
+        public void CalculateScore_OneSpare_CorrectlyIncludesBonus()
+        {
+            //Arrange
+            BowlingGame game = CreateBowlingGame();
+
+            //Act
+            game.Roll(2);
+            game.Roll(8);
+            game.Roll(4);
+            RollMany(0, 17, game);
+
+            //Assert
+            Assert.AreEqual(18, game.CalculateScore());
         }
     }
 }

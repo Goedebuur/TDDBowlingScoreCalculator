@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BowlingGame.cs" />
+    <Compile Include="Frame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
