@@ -4,7 +4,7 @@
     {
         #region Member fields
 
-        private readonly Frame[] _frames = new Frame[10];
+        private readonly Frame[] _frames = new Frame[12];
 
         private int _currentFrame;
         private int _currentRoll;
@@ -31,7 +31,7 @@
         public int CalculateScore()
         {
             for (int i = 0;
-                i < _frames.Length;
+                i < 10;
                 i++)
             {
                 Frame currentFrame = _frames[i];

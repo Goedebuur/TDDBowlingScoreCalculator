@@ -102,5 +102,18 @@ namespace TDDBowlingGameKataTests
             //Assert
             Assert.AreEqual(20, game.CalculateScore());
         }
+
+        [Test]
+        public void CalculateScore_PerfectGame_Returns300()
+        {
+            //Arrange
+            BowlingGame game = CreateBowlingGame();
+
+            //Act
+            RollMany(10, 12, game);
+
+            //Assert
+            Assert.AreEqual(300, game.CalculateScore());
+        }
     }
 }
