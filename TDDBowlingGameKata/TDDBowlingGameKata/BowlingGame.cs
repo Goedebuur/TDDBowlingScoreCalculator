@@ -1,4 +1,6 @@
-﻿namespace TDDBowlingGameKata
+﻿using System;
+
+namespace TDDBowlingGameKata
 {
     public class BowlingGame
     {
@@ -57,6 +59,12 @@
 
         public void Roll(int i)
         {
+            if (i < 0
+                || i > 10)
+            {
+                throw new ArgumentException();
+            }
+
             _frames[_currentFrame].Rolls[_currentRoll] = i;
 
             if (_currentRoll == 1)
