@@ -14,6 +14,11 @@ namespace TDDBowlingGameKataTests
             return new BowlingGame();
         }
 
+        private ScoreKeeperFake CreateScoreKeeperFake()
+        {
+            return new ScoreKeeperFake();
+        }
+
         private void RollMany(int pins, int times, BowlingGame game)
         {
             for (int i = 0;
@@ -34,84 +39,115 @@ namespace TDDBowlingGameKataTests
         public void CalculateScore_AllOnes_Returns20()
         {
             BowlingGame game = CreateBowlingGame();
-            RollMany(1, 20, game);
+            ScoreKeeperFake scoreKeeperFake = CreateScoreKeeperFake();
+            game.SetScoreKeeper(scoreKeeperFake);
 
-            Assert.AreEqual(20, game.CalculateScore());
+            RollMany(1, 20, game);
+            game.FinishGame();
+
+            Assert.AreEqual(20, scoreKeeperFake.LastScore);
         }
 
         [Test]
         public void CalculateScore_DoubleStrike_CorrectlyIncludesBonus()
         {
             BowlingGame game = CreateBowlingGame();
+            ScoreKeeperFake scoreKeeperFake = CreateScoreKeeperFake();
+            game.SetScoreKeeper(scoreKeeperFake);
 
             game.Roll(10); // Strike for total 22
             game.Roll(10); // Strike for total 15
             game.Roll(2);
             game.Roll(3);
             RollMany(0, 14, game);
+            game.FinishGame();
 
-            Assert.AreEqual(42, game.CalculateScore());
+            Assert.AreEqual(42, scoreKeeperFake.LastScore);
         }
 
         [Test]
         public void CalculateScore_GutterGame_ReturnsZero()
         {
             BowlingGame game = CreateBowlingGame();
-            RollMany(0, 20, game);
+            ScoreKeeperFake scoreKeeperFake = CreateScoreKeeperFake();
+            game.SetScoreKeeper(scoreKeeperFake);
 
-            Assert.AreEqual(0, game.CalculateScore());
+            RollMany(0, 20, game);
+            game.FinishGame();
+
+            Assert.AreEqual(0, scoreKeeperFake.LastScore);
         }
 
         [Test]
         public void CalculateScore_NoRolls_ReturnsZero()
         {
             BowlingGame game = CreateBowlingGame();
-            RollMany(1, 0, game);
+            ScoreKeeperFake scoreKeeperFake = CreateScoreKeeperFake();
+            game.SetScoreKeeper(scoreKeeperFake);
 
-            Assert.AreEqual(0, game.CalculateScore());
+            RollMany(1, 0, game);
+            game.FinishGame();
+
+            Assert.AreEqual(0, scoreKeeperFake.LastScore);
         }
 
         [Test]
         public void CalculateScore_OneSpare_CorrectlyIncludesBonus()
         {
             BowlingGame game = CreateBowlingGame();
+            ScoreKeeperFake scoreKeeperFake = CreateScoreKeeperFake();
+            game.SetScoreKeeper(scoreKeeperFake);
 
             RollSpare(game);
             game.Roll(4); //Bonus roll
             RollMany(0, 17, game);
+            
+            game.FinishGame();
 
-            Assert.AreEqual(18, game.CalculateScore());
+            Assert.AreEqual(18, scoreKeeperFake.LastScore);
         }
 
         [Test]
         public void CalculateScore_OneStrike_CorrectlyIncludesBonus()
         {
             BowlingGame game = CreateBowlingGame();
+            ScoreKeeperFake scoreKeeperFake = CreateScoreKeeperFake();
+            game.SetScoreKeeper(scoreKeeperFake);
 
             game.Roll(10); // Strike
             game.Roll(2); // 2 bonus rolls
             game.Roll(3);
             RollMany(0, 16, game);
 
-            Assert.AreEqual(20, game.CalculateScore());
+            game.FinishGame();
+
+            Assert.AreEqual(20, scoreKeeperFake.LastScore);
         }
 
         [Test]
         public void CalculateScore_PerfectGame_Returns300()
         {
             BowlingGame game = CreateBowlingGame();
-            RollMany(10, 12, game);
+            ScoreKeeperFake scoreKeeperFake = CreateScoreKeeperFake();
+            game.SetScoreKeeper(scoreKeeperFake);
 
-            Assert.AreEqual(300, game.CalculateScore());
+            RollMany(10, 12, game);
+            game.FinishGame();
+
+            Assert.AreEqual(300, scoreKeeperFake.LastScore);
         }
 
         [Test]
         public void CalculateScore_Roll21Ones_Returns20()
         {
             BowlingGame game = CreateBowlingGame();
-            RollMany(1, 21, game);
+            ScoreKeeperFake scoreKeeperFake = CreateScoreKeeperFake();
+            game.SetScoreKeeper(scoreKeeperFake);
 
-            Assert.AreEqual(20, game.CalculateScore());
+            RollMany(1, 21, game);
+            game.FinishGame();
+
+            Assert.AreEqual(20, scoreKeeperFake.LastScore);
         }
 
         [Test]
@@ -143,9 +179,7 @@ namespace TDDBowlingGameKataTests
 
             RollMany(1, tooManyFrames, game);
 
-            game.CalculateScore();
+            game.FinishGame();
         }
-
-
     }
 }

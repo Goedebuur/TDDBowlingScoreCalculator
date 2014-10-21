@@ -10,7 +10,13 @@ namespace TDDBowlingGameKata
 
         private int _currentFrame;
         private int _currentRoll;
-        private readonly ScoreKeeper _scoreKeeper;
+
+        private IScoreKeeper _scoreKeeper;
+
+        public void SetScoreKeeper(IScoreKeeper scoreKeeper)
+        {
+            _scoreKeeper = scoreKeeper;
+        }
 
         #endregion
 
@@ -31,7 +37,13 @@ namespace TDDBowlingGameKata
 
         public static void Main(string[] args) {}
 
-        public void CalculateScore()
+        public void FinishGame()
+        {
+            int score = CalculateScore();
+            _scoreKeeper.UpdateScore(score);
+        }
+
+        private int CalculateScore()
         {
             int score = 0;
 
@@ -57,7 +69,7 @@ namespace TDDBowlingGameKata
                 }
             }
 
-            _scoreKeeper.UpdateScore(score);
+            return score;
         }
 
         public void Roll(int i)

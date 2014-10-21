@@ -1,11 +1,12 @@
-﻿namespace TDDBowlingGameKata
+﻿using TDDBowlingGameKata;
+
+namespace TDDBowlingGameKataTests
 {
-    public class ScoreKeeper : IScoreKeeper
+    public class ScoreKeeperFake : IScoreKeeper
     {
         #region Member fields
 
         private int _highScore;
-
         private int _lastScore;
 
         #endregion
@@ -25,11 +26,6 @@
         public void UpdateScore(int score)
         {
             _lastScore = score;
-
-            if (_highScore < score)
-            {
-                _highScore = score;
-            }
         }
 
         #endregion

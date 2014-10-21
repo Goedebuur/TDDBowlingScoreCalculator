@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BowlingGameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScoreKeeperFake.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TDDBowlingGameKata\TDDBowlingGameKata.csproj">

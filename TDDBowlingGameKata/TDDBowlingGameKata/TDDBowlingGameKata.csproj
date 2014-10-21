@@ -37,7 +37,8 @@
   <ItemGroup>
     <Compile Include="BowlingGame.cs" />
     <Compile Include="Frame.cs" />
-    <Compile Include="HighScoreKeeper.cs" />
+    <Compile Include="IScoreKeeper.cs" />
+    <Compile Include="ScoreKeeper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
