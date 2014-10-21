@@ -145,5 +145,7 @@ namespace TDDBowlingGameKataTests
 
             game.CalculateScore();
         }
+
+
     }
 }
